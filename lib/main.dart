@@ -7,6 +7,7 @@ import 'models/wardrobe_item.dart';
 import 'models/outfit.dart';
 import 'models/brand.dart';
 import 'models/item_category.dart';
+import 'models/user_profile.dart';
 
 
 Future<void> main() async {
@@ -27,6 +28,7 @@ Future<void> main() async {
   Hive.registerAdapter(OutfitAdapter());
   Hive.registerAdapter(BrandAdapter());
   Hive.registerAdapter(ItemCategoryAdapter());
+  Hive.registerAdapter(UserProfileAdapter());
 
   runApp(const MyApp());
 }
@@ -39,7 +41,7 @@ class MyApp extends StatelessWidget {
     return MaterialApp.router(
       title: 'OpenWardrobe',
       theme: ThemeData(
-        colorScheme: ColorScheme.fromSeed(seedColor: Colors.blue),
+        colorScheme: ColorScheme.fromSeed(seedColor: const Color.fromARGB(255, 33, 243, 163)),
         useMaterial3: true,  // Enable Material 3 (modern UI)
       ),
       darkTheme: ThemeData.dark(),  // Support dark mode
