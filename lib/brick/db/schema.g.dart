@@ -2,13 +2,17 @@
 // This file should be version controlled
 import 'package:brick_sqlite/db.dart';
 part '20250213222641.migration.dart';
+part '20250214203603.migration.dart';
 
 /// All intelligently-generated migrations from all `@Migratable` classes on disk
-final migrations = <Migration>{const Migration20250213222641()};
+final migrations = <Migration>{
+  const Migration20250213222641(),
+  const Migration20250214203603()
+};
 
 /// A consumable database structure including the latest generated migration.
 final schema =
-    Schema(20250213222641, generatorVersion: 1, tables: <SchemaTable>{
+    Schema(20250214203603, generatorVersion: 1, tables: <SchemaTable>{
   SchemaTable('CommunityPostLike', columns: <SchemaColumn>{
     SchemaColumn('_brick_id', Column.integer,
         autoincrement: true, nullable: false, isPrimaryKey: true),
@@ -63,6 +67,23 @@ final schema =
         onDeleteSetDefault: false)
   }, indices: <SchemaIndex>{
     SchemaIndex(columns: ['id'], unique: true)
+  }),
+  SchemaTable('_brick_Outfit_outfit_items', columns: <SchemaColumn>{
+    SchemaColumn('_brick_id', Column.integer,
+        autoincrement: true, nullable: false, isPrimaryKey: true),
+    SchemaColumn('l_Outfit_brick_id', Column.integer,
+        isForeignKey: true,
+        foreignTableName: 'Outfit',
+        onDeleteCascade: true,
+        onDeleteSetDefault: false),
+    SchemaColumn('f_OutfitItem_brick_id', Column.integer,
+        isForeignKey: true,
+        foreignTableName: 'OutfitItem',
+        onDeleteCascade: true,
+        onDeleteSetDefault: false)
+  }, indices: <SchemaIndex>{
+    SchemaIndex(
+        columns: ['l_Outfit_brick_id', 'f_OutfitItem_brick_id'], unique: true)
   }),
   SchemaTable('Outfit', columns: <SchemaColumn>{
     SchemaColumn('_brick_id', Column.integer,

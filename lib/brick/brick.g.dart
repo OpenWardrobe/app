@@ -17,6 +17,8 @@ import 'package:openwardrobe/brick/models/user_profile.model.dart';
 // ignore: unused_import, unused_shown_name, unnecessary_import
 import 'package:openwardrobe/brick/models/wardrobe_item.model.dart';
 // ignore: unused_import, unused_shown_name, unnecessary_import
+import 'package:openwardrobe/brick/models/outfit_item.model.dart';
+// ignore: unused_import, unused_shown_name, unnecessary_import
 import 'package:openwardrobe/brick/models/brand.model.dart';
 // ignore: unused_import, unused_shown_name, unnecessary_import
 import 'package:openwardrobe/brick/models/item_category.model.dart';

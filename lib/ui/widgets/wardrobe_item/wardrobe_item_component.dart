@@ -9,7 +9,7 @@ class WardrobeItemComponent extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    const size = 100.00;
+    const size = 110.00;
 
     return Column(
       children: [

@@ -21,7 +21,13 @@ Future<Outfit> _$OutfitFromSupabase(Map<String, dynamic> data,
           ? null
           : data['deleted_at'] == null
               ? null
-              : DateTime.tryParse(data['deleted_at'] as String));
+              : DateTime.tryParse(data['deleted_at'] as String),
+      outfitItems: await Future.wait<OutfitItem>(data['outfit_items']
+              ?.map((d) => OutfitItemAdapter()
+                  .fromSupabase(d, provider: provider, repository: repository))
+              .toList()
+              .cast<Future<OutfitItem>>() ??
+          []));
 }
 
 Future<Map<String, dynamic>> _$OutfitToSupabase(Outfit instance,
@@ -36,7 +42,11 @@ Future<Map<String, dynamic>> _$OutfitToSupabase(Outfit instance,
     'name': instance.name,
     'created_at': instance.createdAt.toIso8601String(),
     'updated_at': instance.updatedAt.toIso8601String(),
-    'deleted_at': instance.deletedAt?.toIso8601String()
+    'deleted_at': instance.deletedAt?.toIso8601String(),
+    'outfit_items': await Future.wait<Map<String, dynamic>>(instance.outfitItems
+        .map((s) => OutfitItemAdapter()
+            .toSupabase(s, provider: provider, repository: repository))
+        .toList())
   };
 }
 
@@ -62,7 +72,19 @@ Future<Outfit> _$OutfitFromSqlite(Map<String, dynamic> data,
           ? null
           : data['deleted_at'] == null
               ? null
-              : DateTime.tryParse(data['deleted_at'] as String))
+              : DateTime.tryParse(data['deleted_at'] as String),
+      outfitItems: (await provider.rawQuery(
+              'SELECT DISTINCT `f_OutfitItem_brick_id` FROM `_brick_Outfit_outfit_items` WHERE l_Outfit_brick_id = ?',
+              [data['_brick_id'] as int]).then((results) {
+        final ids = results.map((r) => r['f_OutfitItem_brick_id']);
+        return Future.wait<OutfitItem>(ids.map((primaryKey) => repository!
+            .getAssociation<OutfitItem>(
+              Query.where('primaryKey', primaryKey, limit1: true),
+            )
+            .then((r) => r!.first)));
+      }))
+          .toList()
+          .cast<OutfitItem>())
     ..primaryKey = data['_brick_id'] as int;
 }
 
@@ -119,6 +141,13 @@ class OutfitAdapter extends OfflineFirstWithSupabaseAdapter<Outfit> {
     'deletedAt': const RuntimeSupabaseColumnDefinition(
       association: false,
       columnName: 'deleted_at',
+    ),
+    'outfitItems': const RuntimeSupabaseColumnDefinition(
+      association: true,
+      columnName: 'outfit_items',
+      associationType: OutfitItem,
+      associationIsNullable: false,
+      foreignKey: 'outfit_id',
     )
   };
   @override
@@ -168,6 +197,12 @@ class OutfitAdapter extends OfflineFirstWithSupabaseAdapter<Outfit> {
       columnName: 'deleted_at',
       iterable: false,
       type: DateTime,
+    ),
+    'outfitItems': const RuntimeSqliteColumnDefinition(
+      association: true,
+      columnName: 'outfit_items',
+      iterable: true,
+      type: OutfitItem,
     )
   };
   @override
@@ -186,6 +221,34 @@ class OutfitAdapter extends OfflineFirstWithSupabaseAdapter<Outfit> {
 
   @override
   final String tableName = 'Outfit';
+  @override
+  Future<void> afterSave(instance, {required provider, repository}) async {
+    if (instance.primaryKey != null) {
+      final outfitItemsOldColumns = await provider.rawQuery(
+          'SELECT `f_OutfitItem_brick_id` FROM `_brick_Outfit_outfit_items` WHERE `l_Outfit_brick_id` = ?',
+          [instance.primaryKey]);
+      final outfitItemsOldIds =
+          outfitItemsOldColumns.map((a) => a['f_OutfitItem_brick_id']);
+      final outfitItemsNewIds =
+          instance.outfitItems.map((s) => s.primaryKey).whereType<int>();
+      final outfitItemsIdsToDelete =
+          outfitItemsOldIds.where((id) => !outfitItemsNewIds.contains(id));
+
+      await Future.wait<void>(outfitItemsIdsToDelete.map((id) async {
+        return await provider.rawExecute(
+            'DELETE FROM `_brick_Outfit_outfit_items` WHERE `l_Outfit_brick_id` = ? AND `f_OutfitItem_brick_id` = ?',
+            [instance.primaryKey, id]).catchError((e) => null);
+      }));
+
+      await Future.wait<int?>(instance.outfitItems.map((s) async {
+        final id = s.primaryKey ??
+            await provider.upsert<OutfitItem>(s, repository: repository);
+        return await provider.rawInsert(
+            'INSERT OR IGNORE INTO `_brick_Outfit_outfit_items` (`l_Outfit_brick_id`, `f_OutfitItem_brick_id`) VALUES (?, ?)',
+            [instance.primaryKey, id]);
+      }));
+    }
+  }
 
   @override
   Future<Outfit> fromSupabase(Map<String, dynamic> input,
