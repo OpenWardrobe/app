@@ -20,7 +20,9 @@ class HomeScreen extends StatelessWidget {
         ),
         body: SingleChildScrollView(
           
-            child: IntrinsicHeight(
+            child: Align(
+              alignment: Alignment.topCenter,
+              child: IntrinsicHeight(
               child: Column(
               children: [
                 const SizedBox(height: 20),
@@ -116,6 +118,7 @@ class HomeScreen extends StatelessWidget {
                 ),
               ],
             ),
+            )
             )
         ));
   }
