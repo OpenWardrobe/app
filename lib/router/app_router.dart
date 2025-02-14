@@ -1,5 +1,8 @@
 import 'package:flutter/material.dart';
 import 'package:go_router/go_router.dart';
+import 'package:openwardrobe/brick/models/lookbook.model.dart';
+import 'package:openwardrobe/ui/screens/lookbook/page.dart';
+import 'package:openwardrobe/ui/screens/wardrobe/settings/page.dart';
 import 'package:supabase_flutter/supabase_flutter.dart';
 
 import '../ui/screens/auth/page.dart';
@@ -64,15 +67,25 @@ class AppRouter {
             ],
           ),
 
-          // StatefulShellBranch(
-          //   routes: [
-          //     GoRoute(
-          //       path: '/settings',
-          //       name: 'Settings',
-          //       builder: (context, state) => SettingsPage(),
-          //     ),
-          //   ],
-          // ),
+          StatefulShellBranch(
+            routes: [
+              GoRoute(
+                path: '/lookbook',
+                name: 'Lookbook',
+                builder: (context, state) => LookbookScreen(),
+              ),
+            ],
+          ),
+
+        StatefulShellBranch(
+          routes: [
+            GoRoute(
+              path: '/settings',
+              name: 'Settings',
+              builder: (context, state) => const SettingsPage(),
+            ),
+          ],
+        ),
         ],
       ),
     ],
