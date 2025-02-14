@@ -35,27 +35,15 @@ class LookbookComponent extends StatelessWidget {
               item.description!,
               style: TextStyle(fontSize: 16),
             ),
-          const SizedBox(height: 10),
-          if (item.coverImageUrl != null) 
-            ClipRRect(
-              borderRadius: BorderRadius.circular(8),
-              child: Image.network(
+            // If it has a cover image try to get it otherwise nothing, if it fails to render remove too
+            if (item.coverImageUrl != null && item.coverImageUrl!.isNotEmpty) 
+              Image.network(
                 item.coverImageUrl!,
-                width: 100,
-                height: 100,
                 fit: BoxFit.cover,
-              ),
-            ),
-          if (item.tags != null && item.tags!.isNotEmpty) 
-            Wrap(
-              spacing: 8.0,
-              runSpacing: 8.0,
-              children: item.tags!.map((tag) {
-                return Chip(
-                  label: Text(tag),
-                );
-              }).toList(),
-            ),
+                errorBuilder: (context, error, stackTrace) {
+                  return const SizedBox.shrink(); // Remove the image if it fails to render
+                },
+              )
         ],
       ),
     );
