@@ -10,9 +10,10 @@ class UserProfileComponent extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
 
-    return Column(
+    return Container(
+      padding: EdgeInsets.all(10),
+      child: Row(
       children: [
-        // Avatar
         CircleAvatar(
           radius: 50,
           backgroundImage: item.avatarUrl != null 
@@ -24,8 +25,13 @@ class UserProfileComponent extends StatelessWidget {
         ),
         const SizedBox(height: 16),
         
-        // Display name or username
-        Text(
+        Container(
+          padding: EdgeInsets.all(10),
+          child: Column(
+          mainAxisAlignment: MainAxisAlignment.center,
+          crossAxisAlignment: CrossAxisAlignment.start,
+          children: [
+            Text(
           item.displayName ?? item.username,
           style: Theme.of(context).textTheme.titleLarge,
         ),
@@ -39,8 +45,7 @@ class UserProfileComponent extends StatelessWidget {
           ),
           const SizedBox(height: 8),
         ],
-        
-        // Bio
+
         if (item.bio != null) ...[
           Text(
             item.bio!,
@@ -61,7 +66,13 @@ class UserProfileComponent extends StatelessWidget {
               );
             }).toList(),
           ),
+          ],
+        ),
+        )
+        
+        
       ],
+    )
     );
   }
 }
