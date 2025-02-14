@@ -14,7 +14,7 @@ class ScaffoldWithNavBar extends StatelessWidget {
   ScaffoldWithNavBar({super.key, required this.navigationShell});
 
   final List<NavigationDestination> destinations = [
-    NavigationDestination(icon: Icons.people, label: 'Community'),
+    NavigationDestination(icon: Icons.dashboard, label: 'Home'),
     NavigationDestination(icon: Icons.checkroom, label: 'Wardrobe'),
   ];
 

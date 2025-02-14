@@ -26,7 +26,9 @@ class DashboardLink extends StatelessWidget {
           borderRadius: BorderRadius.circular(5),
         ),
         child: Center(
-          child: Column(
+          child: Container(
+            padding: EdgeInsets.all(4),
+            child: Column(
             mainAxisAlignment: MainAxisAlignment.center,
             children: [
               Icon(icon, color: Colors.white),
@@ -37,6 +39,7 @@ class DashboardLink extends StatelessWidget {
               ),
             ],
           ),
+          )
         ),
       ),
     );

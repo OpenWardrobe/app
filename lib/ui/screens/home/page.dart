@@ -52,7 +52,7 @@ class HomeScreen extends StatelessWidget {
                     mainAxisAlignment: MainAxisAlignment.spaceAround,
                     children: [
                       DashboardLink(
-                        text: 'Upload Items',
+                        text: 'Add Item',
                         icon: Icons.add,
                         color: Colors.blue,
                         onTap: () {},
