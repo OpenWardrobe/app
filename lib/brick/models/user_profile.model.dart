@@ -33,3 +33,4 @@ class UserProfile extends OfflineFirstWithSupabaseModel {
        createdAt = createdAt ?? DateTime.now(),
        updatedAt = updatedAt ?? DateTime.now();
 }
+

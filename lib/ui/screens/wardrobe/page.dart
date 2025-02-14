@@ -18,10 +18,12 @@ class WardrobeScreen extends StatelessWidget {
         // Welcome, username and profile picture
         title: const Text('Wardrobe'),
       ),
-      body: Align(
-          alignment: Alignment
-              .topCenter, // Houdt de items bovenaan en gecentreerd horizontaal
-          child: Column(
+      body: SingleChildScrollView(
+          
+            child: IntrinsicHeight(
+          child: Align(
+            alignment: Alignment.topCenter,
+            child: Column(
             // DashboardLink
             children: [
               // Max width for row
@@ -58,7 +60,10 @@ class WardrobeScreen extends StatelessWidget {
                 ),
               )
             ],
-          )),
+          ),
+          )
+          ),
+      )
     );
   }
 }
