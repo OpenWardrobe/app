@@ -1,7 +1,9 @@
 import 'package:flutter/material.dart';
 import 'package:get_it/get_it.dart';
+import 'package:openwardrobe/brick/models/outfit.model.dart';
 import 'package:openwardrobe/brick/models/wardrobe_item.model.dart';
 import 'package:openwardrobe/controllers/wardrobe_controller.dart';
+import 'package:openwardrobe/ui/widgets/outfit/outfit_component.dart';
 import 'package:openwardrobe/ui/widgets/wardrobe_item/wardrobe_item_component.dart';
 
 class WardrobeScreen extends StatefulWidget {
@@ -33,20 +35,44 @@ class _WardrobeScreenState extends State<WardrobeScreen> {
 
             return SingleChildScrollView(
               child: Align(
-                  alignment: Alignment.topCenter,
-                  child: Column(
-                    children: [
-                      Wrap(
-                        spacing: 10,
-                        runSpacing: 10,
-                        children: items
-                            .map((item) => WardrobeItemComponent(item: item))
-                            .toList(),
-                      ),
-                                            SizedBox(height: 100),
+                alignment: Alignment.topCenter,
+                child: Column(
+                  children: [
+                    Wrap(
+                      spacing: 10,
+                      runSpacing: 10,
+                      children: items
+                          .map((item) => WardrobeItemComponent(item: item))
+                          .toList(),
+                    ),
+                    const SizedBox(height: 20),
+                    FutureBuilder<List<Outfit>>(
+                      future: wardrobeController.fetchOutfits(),
+                      builder: (context, outfitSnapshot) {
+                        if (outfitSnapshot.connectionState == ConnectionState.waiting) {
+                          // Show wardrobe items while outfits are still loading
+                          return const Center(child: CircularProgressIndicator());
+                        } else if (outfitSnapshot.hasError) {
+                          return Center(child: Text('Error: ${outfitSnapshot.error}'));
+                        } else if (!outfitSnapshot.hasData || outfitSnapshot.data!.isEmpty) {
+                          return const Center(child: Text('No outfits found'));
+                        } else {
+                          final outfits = outfitSnapshot.data!;
 
-                    ],
-                  )),
+                          return Wrap(
+                            spacing: 10,
+                            runSpacing: 10,
+                            children: outfits
+                                .map((outfit) => OutfitComponent(item: outfit))
+                                .toList(),
+                          );
+                        }
+                      },
+                    ),
+                    const SizedBox(height: 100),
+                  ],
+                ),
+              ),
             );
           }
         },
