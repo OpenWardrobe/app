@@ -14,13 +14,4 @@ class HomeController {
     }
   }
 
-  Future<List<DashboardLink>> fetchDashboardLinks() async {
-    try {
-      // Implement logic to fetch dashboard links
-      // Example: return await _appRepository.get<DashboardLink>();
-      return [];
-    } catch (e) {
-      throw Exception('Failed to fetch dashboard links: $e');
-    }
-  }
 }
