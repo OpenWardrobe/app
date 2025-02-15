@@ -1,69 +1,82 @@
 import 'package:flutter/material.dart';
 import 'package:openwardrobe/brick/models/wardrobe_item.model.dart';
 import 'package:openwardrobe/repositories/app_repository.dart';
-// import  waardrobe service from this project
 import 'package:get_it/get_it.dart';
 import 'package:openwardrobe/ui/widgets/wardrobe_item/wardrobe_item_component.dart';
 
-class WardrobeScreen extends StatelessWidget {
-   WardrobeScreen({super.key});
+class WardrobeScreen extends StatefulWidget {
+  const WardrobeScreen({super.key});
 
+  @override
+  _WardrobeScreenState createState() => _WardrobeScreenState();
+}
+
+class _WardrobeScreenState extends State<WardrobeScreen> {
   final appRepo = GetIt.instance<AppRepository>();
-  
 
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-      appBar: AppBar(
-        // Welcome, username and profile picture
-        title: const Text('Wardrobe'),
+      appBar: AppBar(title: const Text('Wardrobe')),
+      body: FutureBuilder<List<WardrobeItem>>(
+        future: appRepo.get<WardrobeItem>(),
+        builder: (context, snapshot) {
+          if (snapshot.connectionState == ConnectionState.waiting) {
+            return const Center(child: CircularProgressIndicator());
+          } else if (snapshot.hasError) {
+            return Center(child: Text('Error: ${snapshot.error}'));
+          } else if (!snapshot.hasData || snapshot.data!.isEmpty) {
+            return const Center(child: Text('No items found'));
+          } else {
+            final items = snapshot.data!;
+
+            // Compute some stats
+            final int totalItems = items.length;
+
+            return Padding(
+              padding: const EdgeInsets.all(16),
+              child: Column(
+                crossAxisAlignment: CrossAxisAlignment.start,
+                children: [
+                  // Wardrobe Statistics
+                  Card(
+                    elevation: 2,
+                    child: Padding(
+                      padding: const EdgeInsets.all(12),
+                      child: Column(
+                        crossAxisAlignment: CrossAxisAlignment.start,
+                        children: [
+                          Text('Total Items: $totalItems',
+                              style: const TextStyle(fontSize: 18, fontWeight: FontWeight.bold)),
+                          const SizedBox(height: 8),
+                        ],
+                      ),
+                    ),
+                  ),
+
+                  const SizedBox(height: 16),
+
+                  // Wardrobe Items Grid
+                  Expanded(
+                    child: GridView.builder(
+                      gridDelegate: const SliverGridDelegateWithFixedCrossAxisCount(
+                        crossAxisCount: 3,
+                        crossAxisSpacing: 10,
+                        mainAxisSpacing: 10,
+                      ),
+                      itemCount: items.length,
+                      itemBuilder: (context, index) {
+                        final item = items[index];
+                        return WardrobeItemComponent(item: item);
+                      },
+                    ),
+                  ),
+                ],
+              ),
+            );
+          }
+        },
       ),
-      body: SingleChildScrollView(
-          
-            child: IntrinsicHeight(
-          child: Align(
-            alignment: Alignment.topCenter,
-            child: Column(
-            // DashboardLink
-            children: [
-              // Max width for row
-              const SizedBox(height: 20),
-              Expanded(
-                child: ConstrainedBox(
-                  constraints: const BoxConstraints(maxWidth: 500),
-                  child: FutureBuilder<List<WardrobeItem>>(
-                  future: appRepo.get<WardrobeItem>(),
-                  builder: (context, snapshot) {
-                    if (snapshot.connectionState == ConnectionState.waiting) {
-                      return const Center(child: CircularProgressIndicator());
-                    } else if (snapshot.hasError) {
-                      return Center(
-                        child: Text('Error: ${snapshot.error}'),
-                      );
-                    } else if (!snapshot.hasData || snapshot.data!.isEmpty) {
-                      return const Center(child: Text('No items found'));
-                    } else {
-                      final items = snapshot.data!;
-                      return SingleChildScrollView(
-                        child: Wrap(
-                          spacing: 8.0,
-                          runSpacing: 8.0,
-                          alignment: WrapAlignment.start,
-                          children: items.map((item) => 
-                            WardrobeItemComponent(item: item)
-                          ).toList(),
-                        ),
-                      );
-                    }
-                  }
-                ),
-                ),
-              )
-            ],
-          ),
-          )
-          ),
-      )
     );
   }
 }
