@@ -12,7 +12,8 @@ class WardrobeScreen extends StatefulWidget {
 }
 
 class _WardrobeScreenState extends State<WardrobeScreen> {
-  final WardrobeController wardrobeController = GetIt.instance<WardrobeController>();
+  final WardrobeController wardrobeController =
+      GetIt.instance<WardrobeController>();
 
   @override
   Widget build(BuildContext context) {
@@ -30,49 +31,22 @@ class _WardrobeScreenState extends State<WardrobeScreen> {
           } else {
             final items = snapshot.data!;
 
-            // Compute some stats
-            final int totalItems = items.length;
-
-            return Padding(
-              padding: const EdgeInsets.all(16),
-              child: Column(
-                crossAxisAlignment: CrossAxisAlignment.start,
-                children: [
-                  // Wardrobe Statistics
-                  Card(
-                    elevation: 2,
-                    child: Padding(
-                      padding: const EdgeInsets.all(12),
-                      child: Column(
-                        crossAxisAlignment: CrossAxisAlignment.start,
-                        children: [
-                          Text('Total Items: $totalItems',
-                              style: const TextStyle(fontSize: 18, fontWeight: FontWeight.bold)),
-                          const SizedBox(height: 8),
-                        ],
+            return SingleChildScrollView(
+              child: Align(
+                  alignment: Alignment.topCenter,
+                  child: Column(
+                    children: [
+                      Wrap(
+                        spacing: 10,
+                        runSpacing: 10,
+                        children: items
+                            .map((item) => WardrobeItemComponent(item: item))
+                            .toList(),
                       ),
-                    ),
-                  ),
+                                            SizedBox(height: 100),
 
-                  const SizedBox(height: 16),
-
-                  // Wardrobe Items Grid
-                  Expanded(
-                    child: GridView.builder(
-                      gridDelegate: const SliverGridDelegateWithFixedCrossAxisCount(
-                        crossAxisCount: 3,
-                        crossAxisSpacing: 10,
-                        mainAxisSpacing: 10,
-                      ),
-                      itemCount: items.length,
-                      itemBuilder: (context, index) {
-                        final item = items[index];
-                        return WardrobeItemComponent(item: item);
-                      },
-                    ),
-                  ),
-                ],
-              ),
+                    ],
+                  )),
             );
           }
         },

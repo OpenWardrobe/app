@@ -63,7 +63,13 @@ class ScaffoldWithNavBar extends StatelessWidget {
     } else {
       return Scaffold(
         extendBody: true,
-        body: navigationShell,
+        body: Column(
+          children: [
+            Expanded(child: 
+            navigationShell
+            ),
+          ],
+        ),
         bottomNavigationBar: BottomNavBarCurvedFb1(destinations: destinations),
       );
     }
