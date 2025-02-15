@@ -8,7 +8,7 @@ final wardrobeControllerProvider = Provider((ref) => WardrobeController(ref.read
 class WardrobeController {
   final AppRepository _appRepository;
 
-  WardrobeController(Reader read) : _appRepository = read(appRepositoryProvider);
+  WardrobeController(ref) : _appRepository = ref.read(appRepositoryProvider);
 
   Future<List<WardrobeItem>> fetchWardrobeItems() async {
     try {
