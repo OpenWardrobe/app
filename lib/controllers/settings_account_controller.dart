@@ -31,7 +31,7 @@ class SettingsAccountController {
       final response = await Supabase.instance.client.storage
           .from('avatars')
           .upload(imageFile.path, imageFile);
-      return response.data['path'];
+      return response;
     } catch (e) {
       throw Exception('Failed to upload avatar: $e');
     }
@@ -42,7 +42,7 @@ class SettingsAccountController {
       final response = await Supabase.instance.client.storage
           .from('avatars')
           .uploadBinary(fileName, imageBytes);
-      return response.data['path'];
+      return response;
     } catch (e) {
       throw Exception('Failed to upload web avatar: $e');
     }
