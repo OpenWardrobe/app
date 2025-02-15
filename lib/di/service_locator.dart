@@ -5,8 +5,7 @@ import '../controllers/camera_controller.dart';
 import '../controllers/home_controller.dart';
 import '../controllers/wardrobe_controller.dart';
 import '../controllers/lookbook_controller.dart';
-
-
+import '../controllers/settings_account_controller.dart'; // Import the new controller
 
 final getIt = GetIt.instance;
 
@@ -19,5 +18,5 @@ void setupLocator() {
   getIt.registerLazySingleton<HomeController>(() => HomeController());
   getIt.registerLazySingleton<WardrobeController>(() => WardrobeController());
   getIt.registerLazySingleton<LookbookController>(() => LookbookController());
-
+  getIt.registerLazySingleton<SettingsAccountController>(() => SettingsAccountController()); // Register the new controller
 }

@@ -11,6 +11,7 @@ import '../ui/screens/home/page.dart';
 import '../ui/screens/wardrobe/page.dart';
 import '../ui/screens/wardrobe/add/page.dart';
 import '../ui/widgets/scaffold_with_navbar.dart';
+import '../ui/screens/wardrobe/settings/account_page.dart'; // Import the new settings account page
 
 class AppRouter {
   static final GlobalKey<NavigatorState> _rootNavigatorKey =
@@ -42,6 +43,11 @@ class AppRouter {
         path: '/camera',
         name: 'Add Item',
         builder: (context, state) => const CameraScreen(),
+      ),
+      GoRoute(
+        path: '/settings/account',
+        name: 'SettingsAccount',
+        builder: (context, state) => const SettingsAccountPage(),
       ),
       StatefulShellRoute.indexedStack(
         builder: (context, state, navigationShell) {
