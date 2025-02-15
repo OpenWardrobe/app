@@ -1,13 +1,13 @@
 import 'package:flutter/material.dart';
-import 'package:get_it/get_it.dart';
+import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:openwardrobe/controllers/settings_controller.dart';
 
-class SettingsScreen extends StatelessWidget {
+class SettingsScreen extends ConsumerWidget {
   const SettingsScreen({Key? key}) : super(key: key);
 
   @override
-  Widget build(BuildContext context) {
-    final SettingsController settingsController = GetIt.instance<SettingsController>();
+  Widget build(BuildContext context, WidgetRef ref) {
+    final settingsController = ref.read(settingsControllerProvider);
 
     return Scaffold(
       appBar: AppBar(

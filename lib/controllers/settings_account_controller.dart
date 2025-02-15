@@ -1,13 +1,17 @@
 import 'dart:io';
 import 'package:flutter/foundation.dart' show Uint8List, kIsWeb;
-import 'package:get_it/get_it.dart';
+import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:image_picker/image_picker.dart';
 import 'package:openwardrobe/brick/models/user_profile.model.dart';
 import 'package:openwardrobe/repositories/app_repository.dart';
 import 'package:supabase_flutter/supabase_flutter.dart';
 
+final settingsAccountControllerProvider = Provider((ref) => SettingsAccountController(ref.read));
+
 class SettingsAccountController {
-  final AppRepository _appRepository = GetIt.instance<AppRepository>();
+  final AppRepository _appRepository;
+
+  SettingsAccountController(Reader read) : _appRepository = read(appRepositoryProvider);
 
   Future<UserProfile> fetchUserProfile() async {
     try {

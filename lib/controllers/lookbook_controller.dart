@@ -1,9 +1,13 @@
-import 'package:get_it/get_it.dart';
+import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:openwardrobe/repositories/app_repository.dart';
 import 'package:openwardrobe/brick/models/lookbook.model.dart';
 
+final lookbookControllerProvider = Provider((ref) => LookbookController(ref.read));
+
 class LookbookController {
-  final AppRepository _appRepository = GetIt.instance<AppRepository>();
+  final AppRepository _appRepository;
+
+  LookbookController(Reader read) : _appRepository = read(appRepositoryProvider);
 
   Future<List<Lookbook>> fetchLookbookItems() async {
     try {

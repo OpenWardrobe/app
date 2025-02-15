@@ -1,8 +1,12 @@
-import 'package:get_it/get_it.dart';
+import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:openwardrobe/repositories/app_repository.dart';
 
+final settingsControllerProvider = Provider((ref) => SettingsController(ref.read));
+
 class SettingsController {
-  final AppRepository _appRepository = GetIt.instance<AppRepository>();
+  final AppRepository _appRepository;
+
+  SettingsController(Reader read) : _appRepository = read(appRepositoryProvider);
 
   Future<Map<String, dynamic>> fetchSettings() async {
     try {

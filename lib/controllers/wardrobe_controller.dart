@@ -1,10 +1,14 @@
-import 'package:get_it/get_it.dart';
+import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:openwardrobe/brick/models/outfit.model.dart';
 import 'package:openwardrobe/repositories/app_repository.dart';
 import 'package:openwardrobe/brick/models/wardrobe_item.model.dart';
 
+final wardrobeControllerProvider = Provider((ref) => WardrobeController(ref.read));
+
 class WardrobeController {
-  final AppRepository _appRepository = GetIt.instance<AppRepository>();
+  final AppRepository _appRepository;
+
+  WardrobeController(Reader read) : _appRepository = read(appRepositoryProvider);
 
   Future<List<WardrobeItem>> fetchWardrobeItems() async {
     try {

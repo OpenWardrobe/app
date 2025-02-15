@@ -1,5 +1,5 @@
 import 'package:flutter/material.dart';
-import 'package:get_it/get_it.dart';
+import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:openwardrobe/controllers/settings_account_controller.dart';
 import 'package:openwardrobe/brick/models/user_profile.model.dart';
 
@@ -11,7 +11,7 @@ class SettingsAccountPage extends StatefulWidget {
 }
 
 class _SettingsAccountPageState extends State<SettingsAccountPage> {
-  final SettingsAccountController _controller = GetIt.instance<SettingsAccountController>();
+  late SettingsAccountController _controller;
   late Future<UserProfile> _userProfileFuture;
   final TextEditingController _usernameController = TextEditingController();
   final TextEditingController _displayNameController = TextEditingController();
@@ -21,6 +21,7 @@ class _SettingsAccountPageState extends State<SettingsAccountPage> {
   @override
   void initState() {
     super.initState();
+    _controller = context.read(settingsAccountControllerProvider);
     _userProfileFuture = _controller.fetchUserProfile();
   }
 
