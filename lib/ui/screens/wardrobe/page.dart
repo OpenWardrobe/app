@@ -1,24 +1,19 @@
 import 'package:flutter/material.dart';
-import 'package:get_it/get_it.dart';
 import 'package:openwardrobe/brick/models/outfit.model.dart';
 import 'package:openwardrobe/brick/models/wardrobe_item.model.dart';
 import 'package:openwardrobe/controllers/wardrobe_controller.dart';
 import 'package:openwardrobe/ui/widgets/outfit/outfit_component.dart';
 import 'package:openwardrobe/ui/widgets/wardrobe_item/wardrobe_item_component.dart';
+import 'package:flutter_riverpod/flutter_riverpod.dart';
 
-class WardrobeScreen extends StatefulWidget {
-  const WardrobeScreen({super.key});
 
-  @override
-  _WardrobeScreenState createState() => _WardrobeScreenState();
-}
-
-class _WardrobeScreenState extends State<WardrobeScreen> {
-  final WardrobeController wardrobeController =
-      GetIt.instance<WardrobeController>();
+class WardrobeScreen extends ConsumerWidget {
+  const WardrobeScreen({Key? key}) : super(key: key);
 
   @override
-  Widget build(BuildContext context) {
+  Widget build(BuildContext context, WidgetRef ref) {
+    final wardrobeController = ref.watch(wardrobeControllerProvider);
+
     return Scaffold(
       appBar: AppBar(title: const Text('Wardrobe')),
       body: FutureBuilder<List<WardrobeItem>>(
@@ -50,7 +45,6 @@ class _WardrobeScreenState extends State<WardrobeScreen> {
                       future: wardrobeController.fetchOutfits(),
                       builder: (context, outfitSnapshot) {
                         if (outfitSnapshot.connectionState == ConnectionState.waiting) {
-                          // Show wardrobe items while outfits are still loading
                           return const Center(child: CircularProgressIndicator());
                         } else if (outfitSnapshot.hasError) {
                           return Center(child: Text('Error: ${outfitSnapshot.error}'));

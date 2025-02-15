@@ -2,11 +2,15 @@ import 'dart:io';
 import 'package:file_picker/file_picker.dart';
 import 'package:flutter/foundation.dart' show Uint8List, kIsWeb;
 import 'package:image_picker/image_picker.dart';
-import 'package:get_it/get_it.dart';
+import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:openwardrobe/repositories/app_repository.dart';
 
+final cameraControllerProvider = Provider((ref) => CameraController(ref.read));
+
 class CameraController {
-  final AppRepository _appRepository = GetIt.instance<AppRepository>();
+  final AppRepository _appRepository;
+
+  CameraController(read) : _appRepository = read(appRepositoryProvider);
 
   Future<List<File>> pickImages({bool fromGallery = false}) async {
     if (kIsWeb) {

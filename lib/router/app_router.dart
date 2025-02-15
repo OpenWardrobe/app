@@ -1,17 +1,14 @@
 import 'package:flutter/material.dart';
 import 'package:go_router/go_router.dart';
-import 'package:openwardrobe/brick/models/lookbook.model.dart';
 import 'package:openwardrobe/ui/screens/camera/page.dart';
 import 'package:openwardrobe/ui/screens/lookbook/page.dart';
-import 'package:openwardrobe/ui/screens/wardrobe/settings/page.dart';
+import 'package:openwardrobe/ui/screens/settings/page.dart';
 import 'package:supabase_flutter/supabase_flutter.dart';
 
 import '../ui/screens/auth/page.dart';
 import '../ui/screens/home/page.dart';
 import '../ui/screens/wardrobe/page.dart';
-import '../ui/screens/wardrobe/add/page.dart';
 import '../ui/widgets/scaffold_with_navbar.dart';
-import '../ui/screens/wardrobe/settings/account_page.dart'; // Import the new settings account page
 
 class AppRouter {
   static final GlobalKey<NavigatorState> _rootNavigatorKey =
@@ -44,11 +41,7 @@ class AppRouter {
         name: 'Add Item',
         builder: (context, state) => const CameraScreen(),
       ),
-      GoRoute(
-        path: '/settings/account',
-        name: 'SettingsAccount',
-        builder: (context, state) => const SettingsAccountPage(),
-      ),
+      
       StatefulShellRoute.indexedStack(
         builder: (context, state, navigationShell) {
           return ScaffoldWithNavBar(navigationShell: navigationShell);

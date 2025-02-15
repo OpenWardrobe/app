@@ -1,16 +1,16 @@
 import 'package:flutter/material.dart';
 import 'package:openwardrobe/brick/models/lookbook.model.dart';
-import 'package:get_it/get_it.dart';
+import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:openwardrobe/ui/widgets/lookbook/lookbook_component.dart';
 import 'package:openwardrobe/controllers/lookbook_controller.dart';
 
-class LookbookScreen extends StatelessWidget {
+class LookbookScreen extends ConsumerWidget {
   LookbookScreen({super.key});
 
-  final LookbookController lookbookController = GetIt.instance<LookbookController>();
-
   @override
-  Widget build(BuildContext context) {
+  Widget build(BuildContext context, WidgetRef ref) {
+    final lookbookController = ref.read(lookbookControllerProvider);
+
     return Scaffold(
       appBar: AppBar(
         title: const Text('Lookbook'),

@@ -35,6 +35,7 @@ dependencies:
   sqflite_common_ffi_web: any
   camera: ^0.10.0+4
   image_picker: any
+  flutter_riverpod: ^2.0.0
 
 dev_dependencies:
   flutter_test:

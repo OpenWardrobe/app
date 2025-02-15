@@ -1,18 +1,18 @@
 import 'package:flutter/material.dart';
-import 'package:get_it/get_it.dart';
+import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:go_router/go_router.dart';
 import 'package:openwardrobe/brick/models/user_profile.model.dart';
 import 'package:openwardrobe/controllers/home_controller.dart';
 import 'package:openwardrobe/ui/widgets/dashboard/link.dart';
 import 'package:openwardrobe/ui/widgets/user_profile/user_profile_component.dart';
 
-class HomeScreen extends StatelessWidget {
+class HomeScreen extends ConsumerWidget {
   HomeScreen({super.key});
 
-  final HomeController homeController = GetIt.instance<HomeController>();
-
   @override
-  Widget build(BuildContext context) {
+  Widget build(BuildContext context, WidgetRef ref) {
+    final homeController = ref.read(homeControllerProvider);
+
     return Scaffold(
         appBar: AppBar(
           title: const Text('Home'),
