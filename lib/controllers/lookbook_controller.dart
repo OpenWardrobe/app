@@ -7,7 +7,7 @@ final lookbookControllerProvider = Provider((ref) => LookbookController(ref.read
 class LookbookController {
   final AppRepository _appRepository;
 
-  LookbookController(Reader read) : _appRepository = read(appRepositoryProvider);
+  LookbookController(ProviderRef ref) : _appRepository = ref.read(appRepositoryProvider);
 
   Future<List<Lookbook>> fetchLookbookItems() async {
     try {
