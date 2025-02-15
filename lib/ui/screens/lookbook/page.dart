@@ -1,11 +1,8 @@
 import 'package:flutter/material.dart';
 import 'package:openwardrobe/brick/models/lookbook.model.dart';
-import 'package:openwardrobe/brick/models/wardrobe_item.model.dart';
 import 'package:openwardrobe/repositories/app_repository.dart';
-// import  waardrobe service from this project
 import 'package:get_it/get_it.dart';
 import 'package:openwardrobe/ui/widgets/lookbook/lookbook_component.dart';
-import 'package:openwardrobe/ui/widgets/wardrobe_item/wardrobe_item_component.dart';
 
 class LookbookScreen extends StatelessWidget {
    LookbookScreen({super.key});
