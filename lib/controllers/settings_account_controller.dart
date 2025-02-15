@@ -11,7 +11,7 @@ final settingsAccountControllerProvider = Provider((ref) => SettingsAccountContr
 class SettingsAccountController {
   final AppRepository _appRepository;
 
-  SettingsAccountController(Reader read) : _appRepository = read(appRepositoryProvider);
+  SettingsAccountController(ProviderRef ref) : _appRepository = ref.read(appRepositoryProvider);
 
   Future<UserProfile> fetchUserProfile() async {
     try {
