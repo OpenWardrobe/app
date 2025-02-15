@@ -1,8 +1,9 @@
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:openwardrobe/repositories/app_repository.dart';
 import 'package:openwardrobe/brick/models/lookbook.model.dart';
+import 'package:flutter_riverpod/flutter_riverpod.dart';
 
-final lookbookControllerProvider = Provider((ref) => LookbookController(ref.read));
+final lookbookControllerProvider = Provider<LookbookController>((ref) => LookbookController(ref));
 
 class LookbookController {
   final AppRepository _appRepository;
