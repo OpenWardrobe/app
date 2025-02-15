@@ -6,8 +6,8 @@ import 'package:openwardrobe/repositories/app_repository.dart';
 import 'package:openwardrobe/ui/widgets/dashboard/link.dart';
 import 'package:openwardrobe/ui/widgets/user_profile/user_profile_component.dart';
 
-class HomeScreen extends StatelessWidget {
-  HomeScreen({super.key});
+class HomeView extends StatelessWidget {
+  HomeView({super.key});
 
   final appRepo = GetIt.instance<AppRepository>();
 

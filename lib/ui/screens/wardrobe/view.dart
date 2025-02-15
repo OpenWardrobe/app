@@ -1,17 +1,16 @@
 import 'package:flutter/material.dart';
 import 'package:openwardrobe/brick/models/wardrobe_item.model.dart';
-import 'package:openwardrobe/di/service_locator.dart';
 import 'package:openwardrobe/ui/widgets/wardrobe_item/wardrobe_item_component.dart';
 import 'package:openwardrobe/ui/screens/wardrobe/wardrobe_controller.dart';
 
-class WardrobeScreen extends StatefulWidget {
-  const WardrobeScreen({super.key});
+class WardrobeView extends StatefulWidget {
+  const WardrobeView({super.key});
 
   @override
-  _WardrobeScreenState createState() => _WardrobeScreenState();
+  _WardrobeViewState createState() => _WardrobeViewState();
 }
 
-class _WardrobeScreenState extends State<WardrobeScreen> {
+class _WardrobeViewState extends State<WardrobeView> {
   final WardrobeController _controller = WardrobeController();
 
   @override

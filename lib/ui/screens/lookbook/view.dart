@@ -3,8 +3,8 @@ import 'package:openwardrobe/brick/models/lookbook.model.dart';
 import 'package:openwardrobe/ui/widgets/lookbook/lookbook_component.dart';
 import 'package:openwardrobe/ui/screens/lookbook/lookbook_controller.dart';
 
-class LookbookScreen extends StatelessWidget {
-  LookbookScreen({super.key});
+class LookbookView extends StatelessWidget {
+  LookbookView({super.key});
 
   final LookbookController controller = LookbookController();
 
