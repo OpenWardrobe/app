@@ -1,7 +1,6 @@
 import 'package:flutter/material.dart';
-import 'package:openwardrobe/brick/models/wardrobe_item.model.dart';
-import 'package:openwardrobe/repositories/app_repository.dart';
 import 'package:get_it/get_it.dart';
+import 'package:openwardrobe/controllers/wardrobe_controller.dart';
 import 'package:openwardrobe/ui/widgets/wardrobe_item/wardrobe_item_component.dart';
 
 class WardrobeScreen extends StatefulWidget {
@@ -12,14 +11,14 @@ class WardrobeScreen extends StatefulWidget {
 }
 
 class _WardrobeScreenState extends State<WardrobeScreen> {
-  final appRepo = GetIt.instance<AppRepository>();
+  final WardrobeController wardrobeController = GetIt.instance<WardrobeController>();
 
   @override
   Widget build(BuildContext context) {
     return Scaffold(
       appBar: AppBar(title: const Text('Wardrobe')),
       body: FutureBuilder<List<WardrobeItem>>(
-        future: appRepo.get<WardrobeItem>(),
+        future: wardrobeController.fetchWardrobeItems(),
         builder: (context, snapshot) {
           if (snapshot.connectionState == ConnectionState.waiting) {
             return const Center(child: CircularProgressIndicator());

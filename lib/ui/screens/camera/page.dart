@@ -5,6 +5,8 @@ import 'package:flutter/material.dart';
 import 'package:go_router/go_router.dart';
 import 'package:image_picker/image_picker.dart';
 import 'package:flutter/foundation.dart' show Uint8List, kIsWeb;
+import 'package:get_it/get_it.dart';
+import 'package:openwardrobe/controllers/camera_controller.dart';
 
 class CameraScreen extends StatefulWidget {
   const CameraScreen({Key? key}) : super(key: key);
@@ -21,6 +23,8 @@ class _CameraScreenState extends State<CameraScreen> {
   List<File> _selectedImages = [];
   List<Uint8List> _selectedWebImages = [];
   List<String> _selectedWebNames = [];
+
+  final CameraController _cameraController = GetIt.instance<CameraController>();
 
   @override
   void initState() {
@@ -39,33 +43,23 @@ class _CameraScreenState extends State<CameraScreen> {
   }
 
   Future<void> _pickImage({bool fromGallery = false}) async {
-    if (isWeb) {
-      final result = await FilePicker.platform.pickFiles(
-        type: FileType.image,
-        allowMultiple: true, // Allows multiple file selection
-      );
-
-      if (result != null && result.files.isNotEmpty) {
-        for (var file in result.files) {
-          if (file.bytes != null) {
-            setState(() {
-              _selectedWebImages.add(file.bytes!);
-              _selectedWebNames.add(file.name);
-            });
-          }
-        }
-      }
-    } else {
-      final picker = ImagePicker();
-      final pickedFile = await picker.pickImage(
-        source: fromGallery ? ImageSource.gallery : ImageSource.camera,
-      );
-
-      if (pickedFile != null) {
+    try {
+      if (isWeb) {
+        final images = await _cameraController.pickImages(fromGallery: fromGallery);
         setState(() {
-          _selectedImages.add(File(pickedFile.path));
+          _selectedWebImages.addAll(images.map((file) => file.readAsBytesSync()));
+          _selectedWebNames.addAll(images.map((file) => file.path.split('/').last));
+        });
+      } else {
+        final images = await _cameraController.pickImages(fromGallery: fromGallery);
+        setState(() {
+          _selectedImages.addAll(images);
         });
       }
+    } catch (e) {
+      ScaffoldMessenger.of(context).showSnackBar(
+        SnackBar(content: Text('Error: $e')),
+      );
     }
   }
 
@@ -96,7 +90,6 @@ class _CameraScreenState extends State<CameraScreen> {
               onPressed: () {
                 _submitImages();
                 context.pop();
-
               },
               child: const Text('Upload'),
             ),
@@ -107,23 +100,23 @@ class _CameraScreenState extends State<CameraScreen> {
   }
 
   Future<void> _submitImages() async {
-    if (isWeb) {
-      for (int i = 0; i < _selectedWebImages.length; i++) {
-        debugPrint("Uploading Web Image: ${_selectedWebNames[i]}, Size: ${_selectedWebImages[i].length} bytes");
-        // TODO: Implement upload logic for Web images (e.g., upload to Supabase)
+    try {
+      if (isWeb) {
+        await _cameraController.uploadWebImages(_selectedWebImages, _selectedWebNames);
+      } else {
+        await _cameraController.uploadImages(_selectedImages);
       }
-    } else {
-      for (var imageFile in _selectedImages) {
-        debugPrint("Uploading Mobile Image: ${imageFile.path}");
-        // TODO: Implement upload logic for Mobile images (e.g., upload to Supabase)
-      }
+      // Clear images after upload
+      setState(() {
+        _selectedImages.clear();
+        _selectedWebImages.clear();
+        _selectedWebNames.clear();
+      });
+    } catch (e) {
+      ScaffoldMessenger.of(context).showSnackBar(
+        SnackBar(content: Text('Error: $e')),
+      );
     }
-    // Clear images after upload
-    setState(() {
-      _selectedImages.clear();
-      _selectedWebImages.clear();
-      _selectedWebNames.clear();
-    });
   }
 
   @override

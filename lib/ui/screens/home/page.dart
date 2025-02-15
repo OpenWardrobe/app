@@ -2,14 +2,14 @@ import 'package:flutter/material.dart';
 import 'package:get_it/get_it.dart';
 import 'package:go_router/go_router.dart';
 import 'package:openwardrobe/brick/models/user_profile.model.dart';
-import 'package:openwardrobe/repositories/app_repository.dart';
+import 'package:openwardrobe/controllers/home_controller.dart';
 import 'package:openwardrobe/ui/widgets/dashboard/link.dart';
 import 'package:openwardrobe/ui/widgets/user_profile/user_profile_component.dart';
 
 class HomeScreen extends StatelessWidget {
   HomeScreen({super.key});
 
-  final appRepo = GetIt.instance<AppRepository>();
+  final HomeController homeController = GetIt.instance<HomeController>();
 
   @override
   Widget build(BuildContext context) {
@@ -27,7 +27,7 @@ class HomeScreen extends StatelessWidget {
                 ConstrainedBox(
                   constraints: const BoxConstraints(maxWidth: 500),
                   child: FutureBuilder<UserProfile>(
-                    future: appRepo.get<UserProfile>().then((profiles) => profiles.first),
+                    future: homeController.fetchUserProfile(),
                     builder: (context, snapshot) {
                       if (snapshot.connectionState == ConnectionState.waiting) {
                         return const Center(child: CircularProgressIndicator());
