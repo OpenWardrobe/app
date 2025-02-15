@@ -21,11 +21,6 @@ Future<void> main() async {
 
     await AppRepository.configure(databaseFactory);
 
-   
-
-
-    await AppRepository().initialize();
-
   setupLocator();
 
   runApp(const MyApp());

@@ -11,6 +11,7 @@ import '../ui/screens/home/page.dart';
 import '../ui/screens/wardrobe/page.dart';
 import '../ui/screens/wardrobe/add/page.dart';
 import '../ui/widgets/scaffold_with_navbar.dart';
+import 'package:openwardrobe/di/service_locator.dart';
 
 class AppRouter {
   static final GlobalKey<NavigatorState> _rootNavigatorKey =
