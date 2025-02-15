@@ -1,6 +1,7 @@
 import 'package:brick_core/query.dart';
 import 'package:flutter/material.dart';
 import 'package:get_it/get_it.dart';
+import 'package:go_router/go_router.dart';
 import 'package:openwardrobe/brick/models/outfit.model.dart';
 import 'package:openwardrobe/brick/models/user_profile.model.dart';
 import 'package:openwardrobe/brick/models/wardrobe_item.model.dart';
@@ -57,10 +58,12 @@ class HomeScreen extends StatelessWidget {
                     mainAxisAlignment: MainAxisAlignment.spaceAround,
                     children: [
                       DashboardLink(
-                        text: 'Add Item',
+                        text: 'Add Items',
                         icon: Icons.add,
                         color: Colors.blue,
-                        onTap: () {},
+                        onTap: () {
+                          context.push("/camera");
+                        },
                       ),
                       DashboardLink(
                         text: 'Create Outfit',

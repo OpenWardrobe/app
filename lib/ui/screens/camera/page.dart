@@ -89,13 +89,13 @@ class _CameraScreenState extends State<CameraScreen> {
           content: const Text('Are you sure you want to upload these wardrobe items?'),
           actions: [
             TextButton(
-              onPressed: () => context.go("/wardrobe"),
+              onPressed: () => context.pop(),
               child: const Text('Cancel'),
             ),
             ElevatedButton(
               onPressed: () {
                 _submitImages();
-                context.go("/wardrobe");
+                context.pop();
 
               },
               child: const Text('Upload'),
@@ -140,7 +140,7 @@ class _CameraScreenState extends State<CameraScreen> {
         centerTitle: true,
         leading: IconButton(
           icon: const Icon(Icons.arrow_back),
-          onPressed: () => context.go("/wardrobe")
+          onPressed: () => context.pop()
         ),
       ),
       body: Center(

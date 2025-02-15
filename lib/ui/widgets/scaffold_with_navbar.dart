@@ -112,7 +112,7 @@ class _BottomNavBarCurvedFb1State extends State<BottomNavBarCurvedFb1> {
               child: Icon(Icons.add),
               elevation: 0.1,
               onPressed: () {
-                context.go("/camera");
+                context.push("/camera");
               },
             ),
           ),
@@ -131,7 +131,7 @@ class _BottomNavBarCurvedFb1State extends State<BottomNavBarCurvedFb1> {
                       setState(() {
                         _selectedIndex = index;
                       });
-                      context.go(leftItems[index].route);
+                      context.replace(leftItems[index].route);
                     },
                     defaultColor: secondaryColor,
                     selectedColor: primaryColor,

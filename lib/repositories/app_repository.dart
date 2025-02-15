@@ -19,7 +19,7 @@ class AppRepository extends OfflineFirstWithSupabaseRepository {
     required super.sqliteProvider,
     required super.migrations,
     required super.offlineRequestQueue,
-    super.memoryCacheProvider,
+    required super.memoryCacheProvider,
   });
 
   factory AppRepository() => _instance!;
@@ -30,10 +30,10 @@ class AppRepository extends OfflineFirstWithSupabaseRepository {
     );
 
     await Supabase.initialize(
-    url: "https://openwdsupdemo.sug.lol",
-    anonKey: "eyJ0eXAiOiJKV1QiLCJhbGciOiJIUzI1NiJ9.eyJpc3MiOiJzdXBhYmFzZSIsImlhdCI6MTczODg5ODA0MCwiZXhwIjo0ODk0NTcxNjQwLCJyb2xlIjoiYW5vbiJ9.bv0LuM7PP9JxKSrI7XTzw_I2IS7-86L8iqIkHiN-aQI",
-    debug: true,
-  );
+      url: "https://openwdsupdemo.sug.lol",
+      anonKey: "eyJ0eXAiOiJKV1QiLCJhbGciOiJIUzI1NiJ9.eyJpc3MiOiJzdXBhYmFzZSIsImlhdCI6MTczODg5ODA0MCwiZXhwIjo0ODk0NTcxNjQwLCJyb2xlIjoiYW5vbiJ9.bv0LuM7PP9JxKSrI7XTzw_I2IS7-86L8iqIkHiN-aQI",
+      debug: true,
+    );
 
     final provider = SupabaseProvider(
       Supabase.instance.client,
@@ -43,13 +43,12 @@ class AppRepository extends OfflineFirstWithSupabaseRepository {
     _instance = AppRepository._(
       supabaseProvider: provider,
       sqliteProvider: SqliteProvider(
-        'my_repository.sqlite',
+        'openwd.sqlite',
         databaseFactory: databaseFactory,
         modelDictionary: sqliteModelDictionary,
       ),
       migrations: migrations,
       offlineRequestQueue: queue,
-      // Specify class types that should be cached in memory
       memoryCacheProvider: MemoryCacheProvider(),
     );
   }
