@@ -12,7 +12,6 @@ class ItemCategoryComponent extends StatelessWidget {
       padding: const EdgeInsets.all(10),
       child: Text(
         itemCategory.name,
-        style: Theme.of(context).textTheme.headline6,
       ),
     );
   }
