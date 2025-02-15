@@ -3,14 +3,14 @@ import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:openwardrobe/controllers/settings_account_controller.dart';
 import 'package:openwardrobe/brick/models/user_profile.model.dart';
 
-class SettingsAccountPage extends StatefulWidget {
+class SettingsAccountPage extends ConsumerStatefulWidget {
   const SettingsAccountPage({Key? key}) : super(key: key);
 
   @override
   _SettingsAccountPageState createState() => _SettingsAccountPageState();
 }
 
-class _SettingsAccountPageState extends State<SettingsAccountPage> {
+class _SettingsAccountPageState extends ConsumerState<SettingsAccountPage> {
   late SettingsAccountController _controller;
   late Future<UserProfile> _userProfileFuture;
   final TextEditingController _usernameController = TextEditingController();
@@ -21,7 +21,7 @@ class _SettingsAccountPageState extends State<SettingsAccountPage> {
   @override
   void initState() {
     super.initState();
-    _controller = context.read(settingsAccountControllerProvider);
+    _controller = ref.read(settingsAccountControllerProvider);
     _userProfileFuture = _controller.fetchUserProfile();
   }
 
