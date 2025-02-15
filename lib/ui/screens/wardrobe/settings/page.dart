@@ -1,5 +1,5 @@
 import 'package:flutter/material.dart';
-
+import 'package:go_router/go_router.dart';
 
 class SettingsPage extends StatelessWidget {
   const SettingsPage({Key? key}) : super(key: key);
@@ -16,31 +16,26 @@ class SettingsPage extends StatelessWidget {
           crossAxisAlignment: CrossAxisAlignment.start,
           children: [
             ListTile(
-              
               title: const Text('Account'),
               onTap: () {
-                // Navigate to account settings
-                Navigator.pushNamed(context, '/settings/account');
+                context.push('/settings/account');
               },
             ),
             ListTile(
               title: const Text('Notifications'),
               onTap: () {
-                // Navigate to notification settings
                 Navigator.pushNamed(context, '/settings/notifications');
               },
             ),
             ListTile(
               title: const Text('Privacy'),
               onTap: () {
-                // Navigate to privacy settings
                 Navigator.pushNamed(context, '/settings/privacy');
               },
             ),
             ListTile(
               title: const Text('About'),
               onTap: () {
-                // Navigate to about page
                 Navigator.pushNamed(context, '/settings/about');
               },
             ),
