@@ -11,17 +11,7 @@ class LookbookComponent extends StatelessWidget {
     return Container(
       padding: const EdgeInsets.all(10),
       constraints: BoxConstraints(maxWidth: 400), // Set max width like a card
-      decoration: BoxDecoration(
-        color: Colors.white,
-        borderRadius: BorderRadius.circular(8),
-        boxShadow: [
-          BoxShadow(
-            color: Colors.black26,
-            blurRadius: 4,
-            offset: Offset(2, 2),
-          ),
-        ],
-      ),
+      
       child: Column(
         crossAxisAlignment: CrossAxisAlignment.start,
         children: [

@@ -112,7 +112,7 @@ class _BottomNavBarCurvedFb1State extends State<BottomNavBarCurvedFb1> {
               child: Icon(Icons.add),
               elevation: 0.1,
               onPressed: () {
-                // Example: perform a special action.
+                context.go("/camera");
               },
             ),
           ),

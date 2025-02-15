@@ -1,6 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:go_router/go_router.dart';
 import 'package:openwardrobe/brick/models/lookbook.model.dart';
+import 'package:openwardrobe/ui/screens/camera/page.dart';
 import 'package:openwardrobe/ui/screens/lookbook/page.dart';
 import 'package:openwardrobe/ui/screens/wardrobe/settings/page.dart';
 import 'package:supabase_flutter/supabase_flutter.dart';
@@ -37,11 +38,11 @@ class AppRouter {
         name: 'Auth',
         builder: (context, state) => const AuthScreen(),
       ),
-      // GoRoute(
-      //   path: '/wardrobe/add',
-      //   name: 'Add Item',
-      //   builder: (context, state) => const WardrobeAddScreen(),
-      // ),
+      GoRoute(
+        path: '/camera',
+        name: 'Add Item',
+        builder: (context, state) => const CameraScreen(),
+      ),
       StatefulShellRoute.indexedStack(
         builder: (context, state, navigationShell) {
           return ScaffoldWithNavBar(navigationShell: navigationShell);

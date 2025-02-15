@@ -33,6 +33,8 @@ dependencies:
   sqflite_common_ffi: any
   brick_core: any
   sqflite_common_ffi_web: any
+  camera: ^0.10.0+4
+  image_picker: any
 
 dev_dependencies:
   flutter_test:
