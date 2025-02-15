@@ -16,6 +16,8 @@ COPY . .
 # Get dependencies
 RUN flutter pub get
 
+RUN dart pub run build_runner build --delete-conflicting-outputs
+
 # Build Flutter Web
 RUN flutter build web --release
 
