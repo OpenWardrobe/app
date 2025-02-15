@@ -7,7 +7,7 @@ final homeControllerProvider = Provider((ref) => HomeController(ref.read));
 class HomeController {
   final AppRepository _appRepository;
 
-  HomeController(Reader read) : _appRepository = read(appRepositoryProvider);
+  HomeController(read) : _appRepository = read(appRepositoryProvider);
 
   Future<UserProfile> fetchUserProfile() async {
     try {

@@ -10,7 +10,7 @@ final cameraControllerProvider = Provider((ref) => CameraController(ref.read));
 class CameraController {
   final AppRepository _appRepository;
 
-  CameraController(Reader read) : _appRepository = read(appRepositoryProvider);
+  CameraController(read) : _appRepository = read(appRepositoryProvider);
 
   Future<List<File>> pickImages({bool fromGallery = false}) async {
     if (kIsWeb) {

@@ -9,7 +9,7 @@ import 'package:openwardrobe/brick/brick.g.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 
 final appRepositoryProvider = Provider<AppRepository>((ref) {
-  throw UnimplementedError();
+  return AppRepository();
 });
 
 class AppRepository extends OfflineFirstWithSupabaseRepository {
