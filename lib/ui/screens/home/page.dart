@@ -26,19 +26,22 @@ class HomeScreen extends StatelessWidget {
                 const SizedBox(height: 20),
                 ConstrainedBox(
                   constraints: const BoxConstraints(maxWidth: 500),
-                  child: FutureBuilder<UserProfile>(
-                    future: homeController.fetchUserProfile(),
+                  child: StreamBuilder<List<UserProfile>>(
+                    stream: homeController.fetchUserProfile(),
                     builder: (context, snapshot) {
                       if (snapshot.connectionState == ConnectionState.waiting) {
                         return const Center(child: CircularProgressIndicator());
                       } else if (snapshot.hasError) {
-                        return Center(child: Text('Error: ${snapshot.error}'));
-                      } else if (!snapshot.hasData) {
-                        return const Center(child: Text('No profile found'));
-                      }
-                      return UserProfileComponent(item: snapshot.data!);
-                    },
-                  ),
+      return Center(child: Text('Error: ${snapshot.error}'));
+    } else if (!snapshot.hasData || snapshot.data!.isEmpty) {
+      return const Center(child: Text('No profile found'));
+    }
+    
+    final userProfile = snapshot.data!.first; // Assuming there is always one user profile
+
+    return UserProfileComponent(item: userProfile);
+  },
+),
                 ),
                 const SizedBox(height: 20),
                 ConstrainedBox(

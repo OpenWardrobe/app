@@ -1,3 +1,4 @@
+import 'package:brick_core/core.dart';
 import 'package:get_it/get_it.dart';
 import 'package:openwardrobe/brick/models/outfit.model.dart';
 import 'package:openwardrobe/repositories/app_repository.dart';
@@ -18,6 +19,7 @@ class WardrobeController {
   Future<List<Outfit>> fetchOutfits() async {
     try {
       return await _appRepository.get<Outfit>();
+
     } catch (e) {
       // Handle error
       throw Exception('Failed to fetch outfits: $e');
