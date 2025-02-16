@@ -4,7 +4,7 @@ An **open-source, privacy-first** wardrobe app built with **Flutter & Supabase**
 ![Flutter](https://img.shields.io/badge/Flutter-3.0-blue?logo=flutter)
 ![Supabase](https://img.shields.io/badge/Supabase-Database-green?logo=supabase)
 ![MIT License](https://img.shields.io/badge/License-MIT-blue.svg)
-
+ 
 ---
 
 ## 🚀 Features

@@ -1,0 +1,89 @@
+import 'package:flutter/material.dart';
+import 'package:get_it/get_it.dart';
+import 'package:go_router/go_router.dart';
+import 'package:openwardrobe/brick/models/user_profile.model.dart';
+import 'package:openwardrobe/controllers/home_controller.dart';
+import 'package:openwardrobe/ui/widgets/dashboard/link.dart';
+import 'package:openwardrobe/ui/widgets/user_profile/user_profile_component.dart';
+
+class HomeScreen extends StatelessWidget {
+  HomeScreen({super.key});
+
+  final HomeController homeController = GetIt.instance<HomeController>();
+
+  @override
+  Widget build(BuildContext context) {
+    return Scaffold(
+        appBar: AppBar(
+          title: const Text('Home'),
+        ),
+        body: SingleChildScrollView(
+            child: Align(
+          alignment: Alignment.topCenter,
+          child: IntrinsicHeight(
+            child: Column(
+              children: [
+                const SizedBox(height: 20),
+                ConstrainedBox(
+                  constraints: const BoxConstraints(maxWidth: 500),
+                  child: StreamBuilder<List<UserProfile>>(
+                    stream: homeController.fetchUserProfile(),
+                    builder: (context, snapshot) {
+                      if (snapshot.connectionState == ConnectionState.waiting) {
+                        return const Center(child: CircularProgressIndicator());
+                      } else if (snapshot.hasError) {
+      return Center(child: Text('Error: ${snapshot.error}'));
+    } else if (!snapshot.hasData || snapshot.data!.isEmpty) {
+      return const Center(child: Text('No profile found'));
+    }
+    
+    final userProfile = snapshot.data!.first; // Assuming there is always one user profile
+
+    return UserProfileComponent(item: userProfile);
+  },
+),
+                ),
+                const SizedBox(height: 20),
+                ConstrainedBox(
+                  constraints: const BoxConstraints(maxWidth: 500),
+                  child: Row(
+                    mainAxisAlignment: MainAxisAlignment.spaceAround,
+                    children: [
+                      DashboardLink(
+                        text: 'Add Items',
+                        icon: Icons.add,
+                        color: Colors.blue,
+                        onTap: () => context.push("/camera"),
+                      ),
+                      DashboardLink(
+                        text: 'Create Outfit',
+                        color: Colors.red,
+                        icon: Icons.list,
+                        onTap: () {},
+                      ),
+                      DashboardLink(
+                        text: 'Schedule Outfit',
+                        color: Colors.green,
+                        icon: Icons.calendar_today,
+                        onTap: () {},
+                      ),
+                      DashboardLink(
+                        text: 'View Stats',
+                        color: Colors.purple,
+                        icon: Icons.bar_chart,
+                        onTap: () {},
+                      ),
+                    ],
+                  ),
+                ),
+                const SizedBox(height: 20),
+                
+              ],
+            ),
+          ),
+        )
+      )
+
+    );
+  }
+}

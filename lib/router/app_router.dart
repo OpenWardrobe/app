@@ -1,50 +1,98 @@
 import 'package:flutter/material.dart';
 import 'package:go_router/go_router.dart';
+import 'package:openwardrobe/brick/models/lookbook.model.dart';
+import 'package:openwardrobe/ui/screens/camera/page.dart';
+import 'package:openwardrobe/ui/screens/lookbook/page.dart';
+import 'package:openwardrobe/ui/screens/wardrobe/settings/page.dart';
 import 'package:supabase_flutter/supabase_flutter.dart';
 
-import '../ui/screens/home_page.dart';
-import '../ui/screens/auth_page.dart';  
-import '../ui/widgets/tab_scaffold.dart';
+import '../ui/screens/auth/page.dart';
+import '../ui/screens/home/page.dart';
+import '../ui/screens/wardrobe/page.dart';
+import '../ui/screens/wardrobe/add/page.dart';
+import '../ui/widgets/scaffold_with_navbar.dart';
+import '../ui/screens/wardrobe/settings/account_page.dart'; // Import the new settings account page
 
 class AppRouter {
+  static final GlobalKey<NavigatorState> _rootNavigatorKey =
+      GlobalKey<NavigatorState>();
+
   static final GoRouter router = GoRouter(
-    initialLocation: '/home',
-    
-    // Handle redirection based on auth status
+    initialLocation: '/',
+    navigatorKey: _rootNavigatorKey,
     redirect: (BuildContext context, GoRouterState state) {
       final session = Supabase.instance.client.auth.currentSession;
       final isLoggedIn = session != null;
       final isLoggingIn = state.uri.toString() == '/auth';
 
       if (!isLoggedIn && !isLoggingIn) {
-        return '/auth';  // Redirect unauthenticated users to login
+        return '/auth';
       } else if (isLoggedIn && isLoggingIn) {
-        return '/home';  // Redirect logged-in users away from login
+        return '/';
       }
 
-      return null;  // No redirection needed
+      return null;
     },
-
     routes: [
-      // Login Route (accessible without authentication)
       GoRoute(
         path: '/auth',
         name: 'Auth',
-        pageBuilder: (context, state) => NoTransitionPage(child: AuthScreen()),
+        builder: (context, state) => const AuthScreen(),
       ),
-
-      // Protected Routes (require authentication)
-      ShellRoute(
-        builder: (context, state, child) {
-          return TabScaffold(child: child);
+      GoRoute(
+        path: '/camera',
+        name: 'Add Item',
+        builder: (context, state) => const CameraScreen(),
+      ),
+      GoRoute(
+        path: '/settings/account',
+        name: 'SettingsAccount',
+        builder: (context, state) => const SettingsAccountPage(),
+      ),
+      StatefulShellRoute.indexedStack(
+        builder: (context, state, navigationShell) {
+          return ScaffoldWithNavBar(navigationShell: navigationShell);
         },
-        routes: [
-          GoRoute(
-            path: '/home',
-            name: 'Home',
-            pageBuilder: (context, state) => NoTransitionPage(child: HomeScreen()),
+        branches: [
+          StatefulShellBranch(
+            routes: [
+              GoRoute(
+                path: '/',
+                name: 'Home',
+                builder: (context, state) => HomeScreen(),
+              ),
+            ],
           ),
-        //   We still need to wardrobe, analytics, and settings routes, and subroutes
+
+          StatefulShellBranch(
+            routes: [
+              GoRoute(
+                path: '/wardrobe',
+                name: 'Wardrobe',
+                builder: (context, state) => WardrobeScreen(),
+              ),
+            ],
+          ),
+
+          StatefulShellBranch(
+            routes: [
+              GoRoute(
+                path: '/lookbook',
+                name: 'Lookbook',
+                builder: (context, state) => LookbookScreen(),
+              ),
+            ],
+          ),
+
+        StatefulShellBranch(
+          routes: [
+            GoRoute(
+              path: '/settings',
+              name: 'Settings',
+              builder: (context, state) => const SettingsPage(),
+            ),
+          ],
+        ),
         ],
       ),
     ],
